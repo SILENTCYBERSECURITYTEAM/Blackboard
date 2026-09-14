@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViewerBook - Watch & Stream</title>
+    <!-- Tailwind CSS Engine -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+    </style>
+</head>
+<body class="flex justify-center min-h-screen bg-slate-950">
+
+    <!-- Mobile Viewport Container -->
+    <div class="w-full max-w-md bg-slate-900 min-h-screen border-x border-slate-800 relative pb-24 shadow-2xl">
+        
+        <!-- Top Header Bar -->
+        <header class="flex justify-between items-center px-4 py-3 border-b border-slate-800 sticky top-0 bg-slate-900/95 backdrop-blur z-30">
+            <h1 class="text-xl font-bold text-slate-100 flex items-center gap-2">
+                <span>🎬</span> ViewerBook Video
+            </h1>
+            <span class="bg-emerald-500/10 text-emerald-400 text-xs px-2.5 py-1 rounded-full border border-emerald-500/20 font-medium flex items-center gap-1">
+                <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span> HD Stream
+            </span>
+        </header>
+
+        <!-- 1. HTML5 Video Player -->
+        <div class="relative w-full bg-black aspect-video">
+            <video id="mainPlayer" controls class="w-full h-full object-contain" poster="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80">
+                <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" type="video/mp4">
+                আপনার ব্রাউজার ভিডিও প্লেয়ার সমর্থন করে না।
+            </video>
+        </div>
+
+        <!-- 2. Realtime Watch-Time Tracker Badge -->
+        <div class="bg-slate-950 px-4 py-2 border-b border-slate-800 flex justify-between items-center text-xs text-slate-400">
+            <span class="flex items-center gap-1">
+                <span class="text-amber-400">⏱️</span> লিসেনিং/ওয়াচটাইম কাউন্টার:
+            </span>
+            <span id="timerBadge" class="font-mono font-bold text-sky-400 bg-sky-950 px-2 py-0.5 rounded border border-sky-800">
+                00:00 সেকেন্ড
+            </span>
+        </div>
+
+        <div class="p-4 space-y-4">
+
+            <!-- 3. Video Title & Meta -->
+            <div>
+                <h2 class="text-base font-bold text-white leading-snug">
+                    ViewerBook প্ল্যাটফর্মে প্রথম ২০-০ জন ক্রিয়েটর কিভাবে ফ্রি মনিটাইজেশন পাবেন? (ফুল টিউটোরিয়াল)
+                </h2>
+                <div class="flex items-center gap-2 text-xs text-slate-400 mt-2">
+                    <span>১.২ হাজার ভিউ</span> • <span>২ দিন আগে</span>
+                </div>
+            </div>
+
+            <!-- 4. Channel Details & Follow Button -->
+            <div class="flex items-center justify-between bg-slate-950 p-3 rounded-xl border border-slate-800">
+                <div class="flex items-center gap-3">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80" class="w-10 h-10 rounded-full object-cover border border-sky-500">
+                    <div>
+                        <h4 class="text-xs font-bold text-white flex items-center gap-1">
+                            তানজিল টেক
+                            <span class="text-sky-400">✓</span>
+                        </h4>
+                        <p class="text-[10px] text-slate-400">৪.৫ হাজার ফলোয়ার</p>
+                    </div>
+                </div>
+                <button id="followBtn" onclick="toggleFollow()" class="bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs px-4 py-2 rounded-lg transition">
+                    ফলো করুন
+                </button>
+            </div>
+
+            <!-- 5. Interactive Action Bar -->
+            <div class="flex justify-around bg-slate-950 py-2.5 rounded-xl border border-slate-800 text-xs text-slate-300">
+                <button onclick="likeVideo(this)" class="flex items-center gap-1.5 hover:text-sky-400">
+                    <span>👍</span> <span id="likeCount">২৪৫</span>
+                </button>
+                <button class="flex items-center gap-1.5 hover:text-sky-400">
+                    <span>💬</span> <span>১৮</span>
+                </button>
+                <button class="flex items-center gap-1.5 hover:text-sky-400">
+                    <span>↗️</span> <span>শেয়ার</span>
+                </button>
+                <button class="flex items-center gap-1.5 hover:text-sky-400">
+                    <span>💾</span> <span>সেভ</span>
+                </button>
+            </div>
+
+            <!-- 6. Recommended Videos Feed -->
+            <div class="pt-2">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">আরও সাজেস্টেড ভিডিও</h3>
+                
+                <div class="space-y-3">
+                    <!-- Suggested Item 1 -->
+                    <div class="flex gap-3 bg-slate-950 p-2 rounded-xl border border-slate-800">
+                        <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=300&q=80" class="w-28 h-16 rounded-lg object-cover">
+                        <div class="flex-1">
+                            <h5 class="text-xs font-bold text-slate-200 line-clamp-2 leading-tight">ViewerBook ব্যাকএন্ড স্কিমা ডিজাইন শেখার সহজ উপায়</h5>
+                            <p class="text-[10px] text-slate-400 mt-1">ViewerBook Official • ৫০‌০ ভিউ</p>
+                        </div>
+                    </div>
+
+                    <!-- Suggested Item 2 -->
+                    <div class="flex gap-3 bg-slate-950 p-2 rounded-xl border border-slate-800">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=300&q=80" class="w-28 h-16 rounded-lg object-cover">
+                        <div class="flex-1">
+                            <h5 class="text-xs font-bold text-slate-200 line-clamp-2 leading-tight">সোশ্যাল মিডিয়ায় দ্রুত অডিয়েন্স গ্রো করার সিক্রেট টিপস</h5>
+                            <p class="text-[10px] text-slate-400 mt-1">টেক মেকার • ৮৫০ ভিউ</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Navigation Bar -->
+        <nav class="fixed bottom-0 w-full max-w-md bg-slate-900 border-t border-slate-800 flex justify-around py-3 px-2 z-30">
+            <button class="flex flex-col items-center text-slate-400 hover:text-white">
+                <span class="text-lg">🏠</span>
+                <span class="text-[9px]">হোম</span>
+            </button>
+            <button class="flex flex-col items-center text-sky-400">
+                <span class="text-lg">🎬</span>
+                <span class="text-[9px] font-bold">ভিডিও</span>
+            </button>
+            <button class="flex flex-col items-center text-slate-400 hover:text-white">
+                <span class="text-lg">💎</span>
+                <span class="text-[9px]">মনিটাইজেশন</span>
+            </button>
+            <button class="flex flex-col items-center text-slate-400 hover:text-white">
+                <span class="text-lg">👤</span>
+                <span class="text-[9px]">প্রোফাইল</span>
+            </button>
+        </nav>
+
+    </div>
+
+    <!-- Watch-time & Interaction Script -->
+    <script>
+        const player = document.getElementById('mainPlayer');
+        const timerBadge = document.getElementById('timerBadge');
+        let watchedSeconds = 0;
+        let timerInterval = null;
+
+        // Track Video Play & Pause
+        player.addEventListener('play', () => {
+            timerInterval = setInterval(() => {
+                watchedSeconds++;
+                const mins = String(Math.floor(watchedSeconds / 60)).padStart(2, '0');
+                const secs = String(watchedSeconds % 60).padStart(2, '0');
+                timerBadge.innerText = `${mins}:${secs} সেকেন্ড`;
+            }, 1000);
+        });
+
+        player.addEventListener('pause', () => {
+            clearInterval(timerInterval);
+        });
+
+        // Follow Button Toggle
+        function toggleFollow() {
+            const btn = document.getElementById('followBtn');
+            if (btn.innerText === 'ফলো করুন') {
+                btn.innerText = 'ফলো করা হয়েছে ✓';
+                btn.className = 'bg-slate-800 text-slate-300 font-bold text-xs px-4 py-2 rounded-lg transition';
+            } else {
+                btn.innerText = 'ফলো করুন';
+                btn.className = 'bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs px-4 py-2 rounded-lg transition';
+            }
+        }
+
+        // Like Button Increment
+        let isLiked = false;
+        function likeVideo(btn) {
+            const countEl = document.getElementById('likeCount');
+            let count = parseInt(countEl.innerText);
+            if (!isLiked) {
+                countEl.innerText = count + 1;
+                btn.classList.add('text-sky-400');
+                isLiked = true;
+            } else {
+                countEl.innerText = count - 1;
+                btn.classList.remove('text-sky-400');
+                isLiked = false;
+            }
+        }
+    </script>
+
+</body>
+</html>

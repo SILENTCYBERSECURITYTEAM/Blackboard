@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViewerBook - Notifications & Chat</title>
+    <!-- Tailwind CSS Engine -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+    </style>
+</head>
+<body class="flex justify-center min-h-screen bg-slate-950">
+
+    <!-- Mobile Viewport Container -->
+    <div class="w-full max-w-md bg-slate-900 min-h-screen border-x border-slate-800 relative pb-24 shadow-2xl">
+        
+        <!-- Top Header Bar -->
+        <header class="flex justify-between items-center px-4 py-3 border-b border-slate-800 sticky top-0 bg-slate-900/95 backdrop-blur z-30">
+            <h1 class="text-xl font-bold text-slate-100 flex items-center gap-2">
+                <span>🔔</span> নোটিফিকেশন ও মেসেজ
+            </h1>
+            <span class="bg-sky-500/10 text-sky-400 text-xs px-2.5 py-1 rounded-full border border-sky-500/20 font-medium">
+                Viewer Center
+            </span>
+        </header>
+
+        <!-- Navigation Tabs (Notifications vs Messages) -->
+        <div class="flex border-b border-slate-800 bg-slate-900">
+            <button onclick="switchTab('notifs')" id="tabNotifBtn" class="flex-1 py-3 text-xs font-bold text-sky-400 border-b-2 border-sky-400 text-center flex items-center justify-center gap-2">
+                <span>🔔</span> নোটিফিকেশন (৩)
+            </button>
+            <button onclick="switchTab('chats')" id="tabChatBtn" class="flex-1 py-3 text-xs font-bold text-slate-400 border-b-2 border-transparent text-center flex items-center justify-center gap-2">
+                <span>💬</span> মেসেজ (১)
+            </button>
+        </div>
+
+        <!-- Section 1: Notifications View -->
+        <div id="notifSection" class="divide-y divide-slate-800/60">
+
+            <!-- System Alert Notification -->
+            <div class="p-4 bg-sky-950/20 border-l-4 border-sky-500 flex items-start gap-3">
+                <div class="w-9 h-9 rounded-full bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-base shrink-0">
+                    💎
+                </div>
+                <div class="flex-1">
+                    <p class="text-xs text-slate-200">
+                        <span class="font-bold text-sky-400">ViewerBook টিম:</span> আপনি প্রথম ২০০ জনের ফ্রি মনিটাইজেশন স্কিমে সফলভাবে যুক্ত হয়েছেন!
+                    </p>
+                    <span class="text-[10px] text-slate-500 mt-1 block">১০ মিনিট আগে</span>
+                </div>
+            </div>
+
+            <!-- Follow Notification -->
+            <div class="p-4 flex items-center gap-3 hover:bg-slate-800/40 transition">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&q=80" class="w-10 h-10 rounded-full object-cover border border-slate-700">
+                <div class="flex-1">
+                    <p class="text-xs text-slate-300">
+                        <span class="font-bold text-white">সানজিদা ইসলাম</span> আপনাকে ফলো করা শুরু করেছেন।
+                    </p>
+                    <span class="text-[10px] text-slate-500 mt-0.5 block">১ ঘণ্টা আগে</span>
+                </div>
+                <button class="bg-sky-600 hover:bg-sky-500 text-white font-bold text-[11px] px-3 py-1.5 rounded-lg transition">
+                    ব্যাক ফলো
+                </button>
+            </div>
+
+            <!-- Like Notification -->
+            <div class="p-4 flex items-center gap-3 hover:bg-slate-800/40 transition">
+                <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?auto=format&fit=crop&w=150&q=80" class="w-10 h-10 rounded-full object-cover border border-slate-700">
+                <div class="flex-1">
+                    <p class="text-xs text-slate-300">
+                        <span class="font-bold text-white">রাকিব হাসান</span> আপনার ভিডিও পোস্টে লাইক দিয়েছেন।
+                    </p>
+                    <span class="text-[10px] text-slate-500 mt-0.5 block">৩ ঘণ্টা আগে</span>
+                </div>
+                <span class="text-rose-500 text-base">❤️</span>
+            </div>
+
+        </div>
+
+        <!-- Section 2: Messages / Chat View (Hidden by default) -->
+        <div id="chatSection" class="hidden divide-y divide-slate-800/60">
+
+            <!-- Chat List Item -->
+            <div onclick="openChatModal()" class="p-4 flex items-center gap-3 hover:bg-slate-800/40 cursor-pointer transition">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80" class="w-11 h-11 rounded-full object-cover border border-sky-500">
+                    <span class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-slate-900"></span>
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-center">
+                        <h4 class="text-xs font-bold text-white">ViewerBook Support</h4>
+                        <span class="text-[9px] text-slate-500">এখনই</span>
+                    </div>
+                    <p class="text-xs text-sky-400 font-medium truncate mt-0.5">আপনার মনিটাইজেশন রিকোয়েস্ট এপ্রুভ হয়েছে...</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Live Chat Modal (Popup UI) -->
+        <div id="chatModal" class="hidden fixed inset-0 bg-slate-950/90 z-40 flex justify-center items-center p-2">
+            <div class="w-full max-w-md bg-slate-900 h-[85vh] rounded-2xl border border-slate-800 flex flex-col overflow-hidden shadow-2xl">
+                <!-- Chat Header -->
+                <div class="p-3 bg-slate-950 border-b border-slate-800 flex justify-between items-center">
+                    <div class="flex items-center gap-2">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80" class="w-8 h-8 rounded-full">
+                        <span class="text-xs font-bold text-white">ViewerBook Support</span>
+                    </div>
+                    <button onclick="closeChatModal()" class="text-slate-400 hover:text-white text-sm font-bold p-1">✕</button>
+                </div>
+
+                <!-- Chat Box Screen -->
+                <div id="chatMessages" class="flex-1 p-3 overflow-y-auto space-y-2.5 text-xs">
+                    <div class="bg-slate-800 text-slate-200 p-2.5 rounded-xl max-w-[80%] self-start">
+                        হ্যালো! ViewerBook-এ আপনাকে স্বাগতম।
+                    </div>
+                    <div class="bg-sky-600 text-white p-2.5 rounded-xl max-w-[80%] ml-auto text-right">
+                        ধন্যবাদ! মনিটাইজেশন ড্যাশবোর্ড খুব সুন্দর হয়েছে।
+                    </div>
+                </div>
+
+                <!-- Chat Input Box -->
+                <div class="p-2 border-t border-slate-800 bg-slate-950 flex gap-2">
+                    <input type="text" id="chatInput" placeholder="মেসেজ লিখুন..." class="flex-1 bg-slate-900 border border-slate-800 text-xs text-white px-3 py-2 rounded-xl focus:outline-none focus:border-sky-500">
+                    <button onclick="sendChatMessage()" class="bg-sky-600 text-white px-4 py-2 rounded-xl text-xs font-bold">পাঠান</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation Bar -->
+        <nav class="fixed bottom-0 w-full max-w-md bg-slate-900 border-t border-slate-800 flex justify-around py-3 px-2 z-30">
+            <button class="flex flex-col items-center text-slate-400 hover:text-white">
+                <span class="text-lg">🏠</span>
+                <span class="text-[9px]">হোম</span>
+            </button>
+            <button class="flex flex-col items-center text-slate-400 hover:text-white">
+                <span class="text-lg">🎬</span>
+                <span class="text-[9px]">ভিডিও</span>
+            </button>
+            <button class="flex flex-col items-center text-slate-400 hover:text-white">
+                <span class="text-lg">💎</span>
+                <span class="text-[9px]">মনিটাইজেশন</span>
+            </button>
+            <button class="flex flex-col items-center text-slate-400 hover:text-white">
+                <span class="text-lg">👤</span>
+                <span class="text-[9px]">প্রোফাইল</span>
+            </button>
+        </nav>
+
+    </div>
+
+    <!-- Script for Tab Switch & Live Chatting -->
+    <script>
+        function switchTab(type) {
+            const notifBtn = document.getElementById('tabNotifBtn');
+            const chatBtn = document.getElementById('tabChatBtn');
+            const notifSec = document.getElementById('notifSection');
+            const chatSec = document.getElementById('chatSection');
+
+            if (type === 'notifs') {
+                notifBtn.className = "flex-1 py-3 text-xs font-bold text-sky-400 border-b-2 border-sky-400 text-center flex items-center justify-center gap-2";
+                chatBtn.className = "flex-1 py-3 text-xs font-bold text-slate-400 border-b-2 border-transparent text-center flex items-center justify-center gap-2";
+                notifSec.classList.remove('hidden');
+                chatSec.classList.add('hidden');
+            } else {
+                chatBtn.className = "flex-1 py-3 text-xs font-bold text-sky-400 border-b-2 border-sky-400 text-center flex items-center justify-center gap-2";
+                notifBtn.className = "flex-1 py-3 text-xs font-bold text-slate-400 border-b-2 border-transparent text-center flex items-center justify-center gap-2";
+                chatSec.classList.remove('hidden');
+                notifSec.classList.add('hidden');
+            }
+        }
+
+        function openChatModal() {
+            document.getElementById('chatModal').classList.remove('hidden');
+        }
+
+        function closeChatModal() {
+            document.getElementById('chatModal').classList.add('hidden');
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const chatMessages = document.getElementById('chatMessages');
+            const msgHtml = `<div class="bg-sky-600 text-white p-2.5 rounded-xl max-w-[80%] ml-auto text-right">${text}</div>`;
+            
+            chatMessages.insertAdjacentHTML('beforeend', msgHtml);
+            input.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    </script>
+
+</body>
+</html>

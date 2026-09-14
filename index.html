@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Signup</title>
+    <!-- Country Code Selection UI Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 450px;
+            overflow: hidden;
+            padding: 30px;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #eee;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            background: none;
+            border: none;
+            font-size: 18px;
+            font-weight: 600;
+            color: #888;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+        .form-group input, .auth-btn {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+            outline: none;
+        }
+        .form-group input:focus {
+            border-color: #667eea;
+        }
+        .iti {
+            width: 100%;
+        }
+        .toggle-method {
+            margin-top: 5px;
+            font-size: 13px;
+            color: #667eea;
+            cursor: pointer;
+            text-align: right;
+            display: block;
+        }
+        .auth-btn {
+            background: #667eea;
+            color: #fff;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+        .auth-btn:hover {
+            background: #5a67d8;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('login')">লগইন</button>
+        <button class="tab-btn" onclick="switchTab('signup')">সাইন আপ</button>
+    </div>
+
+    <!-- Login Form -->
+    <form id="loginForm">
+        <div class="form-group" id="loginInputGroup">
+            <label id="loginLabel">ইমেইল ঠিকানা</label>
+            <input type="email" id="loginEmail" placeholder="example@gmail.com" required>
+            <div id="loginPhoneWrapper" class="hidden">
+                <input type="tel" id="loginPhone" placeholder="">
+            </div>
+            <span class="toggle-method" onclick="toggleInput('login')">ফোন নম্বর দিয়ে লগইন করুন</span>
+        </div>
+        <div class="form-group">
+            <label>পাসওয়ার্ড</label>
+            <input type="password" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="auth-btn">প্রবেশ করুন</button>
+    </form>
+
+    <!-- Signup Form -->
+    <form id="signupForm" class="hidden">
+        <div class="form-group">
+            <label>সম্পূর্ণ নাম</label>
+            <input type="text" placeholder="আপনার নাম লিখুন" required>
+        </div>
+        <div class="form-group" id="signupInputGroup">
+            <label id="signupLabel">ইমেইল ঠিকানা</label>
+            <input type="email" id="signupEmail" placeholder="example@gmail.com" required>
+            <div id="signupPhoneWrapper" class="hidden">
+                <input type="tel" id="signupPhone" placeholder="">
+            </div>
+            <span class="toggle-method" onclick="toggleInput('signup')">ফোন নম্বর দিয়ে সাইন আপ করুন</span>
+        </div>
+        <div class="form-group">
+            <label>পাসওয়ার্ড</label>
+            <input type="password" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="auth-btn">একাউন্ট তৈরি করুন</button>
+    </form>
+</div>
+
+<!-- JS Script for Country Code -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+<script>
+    // Initialize Phone Inputs with all countries
+    const loginPhoneInput = window.intlTelInput(document.querySelector("#loginPhone"), {
+        initialCountry: "auto",
+        geoIpLookup: function(success) {
+            fetch("https://ipapi.co/json/").then(res => res.json()).then(data => success(data.country_code)).catch(() => success("bd"));
+        },
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+    });
+
+    const signupPhoneInput = window.intlTelInput(document.querySelector("#signupPhone"), {
+        initialCountry: "auto",
+        geoIpLookup: function(success) {
+            fetch("https://ipapi.co/json/").then(res => res.json()).then(data => success(data.country_code)).catch(() => success("bd"));
+        },
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
+    });
+
+    // Tab Switching Logic
+    function switchTab(type) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        if (type === 'login') {
+            document.querySelectorAll('.tab-btn')[0].classList.add('active');
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('signupForm').classList.add('hidden');
+        } else {
+            document.querySelectorAll('.tab-btn')[1].classList.add('active');
+            document.getElementById('signupForm').classList.remove('hidden');
+            document.getElementById('loginForm').classList.add('hidden');
+        }
+    }
+
+    // Toggle Between Email & Phone Input
+    function toggleInput(formType) {
+        const isLogin = formType === 'login';
+        const emailInput = document.getElementById(isLogin ? 'loginEmail' : 'signupEmail');
+        const phoneWrapper = document.getElementById(isLogin ? 'loginPhoneWrapper' : 'signupPhoneWrapper');
+        const label = document.getElementById(isLogin ? 'loginLabel' : 'signupLabel');
+        const toggleBtn = event.target;
+
+        if (phoneWrapper.classList.contains('hidden')) {
+            phoneWrapper.classList.remove('hidden');
+            emailInput.style.display = 'none';
+            emailInput.removeAttribute('required');
+            label.innerText = 'ফোন নম্বর';
+            toggleBtn.innerText = 'ইমেইল দিয়ে ' + (isLogin ? 'লগইন' : 'সাইন আপ') + ' করুন';
+        } else {
+            phoneWrapper.classList.add('hidden');
+            emailInput.style.display = 'block';
+            emailInput.setAttribute('required', 'true');
+            label.innerText = 'ইমেইল ঠিকানা';
+            toggleBtn.innerText = 'ফোন নম্বর দিয়ে ' + (isLogin ? 'লগইন' : 'সাইন আপ') + ' করুন';
+        }
+    }
+</script>
+
+</body>
+</html>

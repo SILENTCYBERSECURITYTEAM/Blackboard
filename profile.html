@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViewerBook - Profile</title>
+    <!-- Tailwind CSS Engine -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="flex justify-center min-h-screen bg-slate-950">
+
+    <!-- Mobile Viewport Container -->
+    <div class="w-full max-w-md bg-slate-900 min-h-screen border-x border-slate-800 relative pb-24 shadow-2xl">
+        
+        <!-- Top Header Bar -->
+        <header class="flex justify-between items-center px-4 py-3 border-b border-slate-800 sticky top-0 bg-slate-900/95 backdrop-blur z-30">
+            <h1 class="text-xl font-bold text-slate-100 flex items-center gap-2">
+                <span>👤</span> প্রোফাইল
+            </h1>
+            <button class="bg-slate-800 p-2 rounded-full text-slate-300 text-sm">⚙️ সেটিং</button>
+        </header>
+
+        <!-- Profile Header Section -->
+        <div class="relative">
+            <!-- Cover Photo -->
+            <div class="h-36 w-full bg-slate-800 overflow-hidden relative">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                <button class="absolute bottom-2 right-2 bg-slate-950/70 text-slate-200 text-[10px] px-2.5 py-1 rounded-full border border-slate-700 backdrop-blur">
+                    📷 কভার পরিবর্তন
+                </button>
+            </div>
+
+            <!-- Profile Avatar & Badges -->
+            <div class="px-4 pb-3 pt-0 flex justify-between items-end relative -mt-12">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80" class="w-24 h-24 rounded-full border-4 border-slate-900 object-cover shadow-lg">
+                    <span class="absolute bottom-1 right-1 bg-sky-500 text-white p-1 rounded-full text-[10px] border-2 border-slate-900" title="Monetized Creator">✓</span>
+                </div>
+                <div class="flex gap-2 mb-2">
+                    <button class="bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs px-4 py-2 rounded-xl transition">
+                        প্রোফাইল এডিট
+                    </button>
+                    <button class="bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs px-3 py-2 rounded-xl border border-slate-700">
+                        📤 শেয়ার
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Info & Bio -->
+        <div class="px-4 space-y-3">
+            <div>
+                <div class="flex items-center gap-2">
+                    <h2 class="text-lg font-bold text-white">তানজিল আহমেদ</h2>
+                    <span class="bg-sky-500/10 text-sky-400 text-[10px] px-2 py-0.5 rounded-full border border-sky-500/20 font-medium">
+                        Verified Creator
+                    </span>
+                </div>
+                <p class="text-xs text-slate-400">@tanjil_official</p>
+            </div>
+
+            <p class="text-xs text-slate-300 leading-relaxed">
+                টেক এনথুসিয়াস্ট ও কনটেন্ট ক্রিয়েটর 🚀 ViewerBook প্ল্যাটফর্মে নিয়মিত প্রযুক্তি ও প্রোগ্রামিং টিউটোরিয়াল শেয়ার করি।
+            </p>
+
+            <!-- Stats Bar -->
+            <div class="flex justify-around bg-slate-950 py-3 rounded-2xl border border-slate-800/80 text-center">
+                <div>
+                    <h4 class="text-sm font-extrabold text-white">৬৮০</h4>
+                    <p class="text-[10px] text-slate-400">ফলোয়ার</p>
+                </div>
+                <div class="border-r border-slate-800"></div>
+                <div>
+                    <h4 class="text-sm font-extrabold text-white">২০০</h4>
+                    <p class="text-[10px] text-slate-400">ফলোয়িং</p>
+                </div>
+                <div class="border-r border-slate-800"></div>
+                <div>
+                    <h4 class="text-sm font-extrabold text-emerald-400">১৬০</h4>
+                    <p class="text-[10px] text-slate-400">মোট পোস্ট</p>
+                </div>
+            </div>
+
+            <!-- Content Tabs -->
+            <div class="flex border-b border-slate-800 pt-2">
+                <button onclick="switchProfileTab('posts')" id="tabPosts" class="flex-1 py-2 text-xs font-bold text-sky-400 border-b-2 border-sky-400 text-center">
+                    🖼️ পোস্টসমূহ
+                </button>
+                <button onclick="switchProfileTab('reels')" id="tabReels" class="flex-1 py-2 text-xs font-bold text-slate-400 border-b-2 border-transparent text-center">
+                    🎬 রিলস & ভিডিও
+                </button>
+            </div>
+
+            <!-- Posts Grid / List View -->
+            <div id="postsContent" class="space-y-3 pt-1">
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+                    <p class="text-xs text-slate-300 mb-2">ViewerBook এর নতুন প্রোফাইল ডিজাইন ইন্টিগ্রেশন সম্পন্ন হলো! ✨</p>
+                    <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=500&q=80" class="w-full h-40 object-cover rounded-lg">
+                </div>
+            </div>
+
+            <!-- Video Grid View (Hidden by default) -->
+            <div id="reelsContent" class="grid grid-cols-2 gap-2 pt-1 hidden">
+                <div class="relative bg-slate-950 rounded-xl overflow-hidden border border-slate-800 aspect-video">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+                    <span class="absolute bottom-1 right-1 bg-black/70 text-white text-[9px] px-1 rounded">01:45</span>
+                </div>
+                <div class="relative bg-slate-950 rounded-xl overflow-hidden border border-slate-800 aspect-video">
+                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=300&q=80" class="w-full h-full object-cover">
+                    <span class="absolute bottom-1 right-1 bg-black/70 text-white text-[9px] px-1 rounded">03:20</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Navigation Bar -->
+        <nav class="fixed bottom-0 w-full max-w-md bg-slate-900 border-t border-slate-800 flex justify-around py-3 px-2 z-30">
+            <button class="flex flex-col items-center text-slate-400 hover:text-white">
+                <span class="text-lg">🏠</span>
+                <span class="text-[9px]">হোম</span>
+            </button>
+            <button class="flex flex-col items-center text-slate-400 hover:text-white">
+                <span class="text-lg">🎬</span>
+                <span class="text-[9px]">ভিডিও</span>
+            </button>
+            <button class="flex flex-col items-center text-slate-400 hover:text-white">
+                <span class="text-lg">💎</span>
+                <span class="text-[9px]">মনিটাইজেশন</span>
+            </button>
+            <button class="flex flex-col items-center text-sky-400">
+                <span class="text-lg">👤</span>
+                <span class="text-[9px] font-bold">প্রোফাইল</span>
+            </button>
+        </nav>
+
+    </div>
+
+    <!-- Tab Switching Script -->
+    <script>
+        function switchProfileTab(tab) {
+            const postsBtn = document.getElementById('tabPosts');
+            const reelsBtn = document.getElementById('tabReels');
+            const postsContent = document.getElementById('postsContent');
+            const reelsContent = document.getElementById('reelsContent');
+
+            if (tab === 'posts') {
+                postsBtn.className = "flex-1 py-2 text-xs font-bold text-sky-400 border-b-2 border-sky-400 text-center";
+                reelsBtn.className = "flex-1 py-2 text-xs font-bold text-slate-400 border-b-2 border-transparent text-center";
+                postsContent.classList.remove('hidden');
+                reelsContent.classList.add('hidden');
+            } else {
+                reelsBtn.className = "flex-1 py-2 text-xs font-bold text-sky-400 border-b-2 border-sky-400 text-center";
+                postsBtn.className = "flex-1 py-2 text-xs font-bold text-slate-400 border-b-2 border-transparent text-center";
+                reelsContent.classList.remove('hidden');
+                postsContent.classList.add('hidden');
+            }
+        }
+    </script>
+
+</body>
+</html>
