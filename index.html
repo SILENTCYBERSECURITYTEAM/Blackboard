@@ -3,206 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login & Signup</title>
-    <!-- Country Code Selection UI Library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css">
+    <title>ViewerBook - OTP & Google Auth</title>
+    <!-- Tailwind CSS Engine -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .container {
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            width: 100%;
-            max-width: 450px;
-            overflow: hidden;
-            padding: 30px;
-        }
-        .tabs {
-            display: flex;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #eee;
-        }
-        .tab-btn {
-            flex: 1;
-            padding: 10px;
-            background: none;
-            border: none;
-            font-size: 18px;
-            font-weight: 600;
-            color: #888;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .tab-btn.active {
-            color: #667eea;
-            border-bottom: 3px solid #667eea;
-        }
-        .form-group {
-            margin-bottom: 18px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 14px;
-            color: #333;
-            font-weight: 500;
-        }
-        .form-group input, .auth-btn {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 15px;
-            outline: none;
-        }
-        .form-group input:focus {
-            border-color: #667eea;
-        }
-        .iti {
-            width: 100%;
-        }
-        .toggle-method {
-            margin-top: 5px;
-            font-size: 13px;
-            color: #667eea;
-            cursor: pointer;
-            text-align: right;
-            display: block;
-        }
-        .auth-btn {
-            background: #667eea;
-            color: #fff;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: 0.3s;
-        }
-        .auth-btn:hover {
-            background: #5a67d8;
-        }
-        .hidden {
-            display: none;
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: system-ui, -apple-system, sans-serif;
         }
     </style>
 </head>
-<body>
+<body class="flex justify-center items-center min-h-screen bg-slate-950 p-4">
 
-<div class="container">
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('login')">লগইন</button>
-        <button class="tab-btn" onclick="switchTab('signup')">সাইন আপ</button>
+    <!-- Auth Card Container -->
+    <div class="w-full max-w-md bg-slate-900 rounded-2xl border border-slate-800 p-6 shadow-2xl space-y-4">
+        
+        <!-- Header -->
+        <div class="text-center">
+            <h1 class="text-3xl font-black text-sky-400 tracking-wider">ViewerBook</h1>
+            <p class="text-xs text-slate-400 mt-1">গুগল বা ফোন নম্বরে OTP দিয়ে সহজে লগইন করুন</p>
+        </div>
+
+        <!-- 1. Direct Google Sign-In Button -->
+        <button onclick="handleGoogleAuth()" class="w-full flex items-center justify-center gap-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold py-2.5 px-4 rounded-xl border border-slate-700 transition text-xs">
+            <svg class="w-4 h-4" viewBox="0 0 24 24">
+                <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.7 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.2 9 5 12 5z"/>
+                <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/>
+                <path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3s.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 10.8 0 12s.7 2.3 1.9 4.7l3.7-2.9z"/>
+                <path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.2-6.4-5.2L1.9 16C3.7 19.7 7.5 23 12 23z"/>
+            </svg>
+            Google / Gmail দিয়ে ১-ক্লিকে লগইন
+        </button>
+
+        <div class="flex items-center my-2">
+            <div class="flex-1 border-t border-slate-800"></div>
+            <span class="px-3 text-[10px] text-slate-500 uppercase font-bold">অথবা ফোন নম্বর / জিমেইল</span>
+            <div class="flex-1 border-t border-slate-800"></div>
+        </div>
+
+        <!-- 2. Registration & Phone OTP Form -->
+        <form onsubmit="handleFormSubmit(event)" class="space-y-3">
+            
+            <!-- First Name & Last Name Row -->
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="text-[10px] text-slate-400 block mb-1">ফার্স্ট নেম</label>
+                    <input type="text" required placeholder="তানজিল" class="w-full bg-slate-950 border border-slate-800 text-xs text-white px-3 py-2 rounded-xl focus:outline-none focus:border-sky-500">
+                </div>
+                <div>
+                    <label class="text-[10px] text-slate-400 block mb-1">লাস্ট নেম</label>
+                    <input type="text" required placeholder="আহমেদ" class="w-full bg-slate-950 border border-slate-800 text-xs text-white px-3 py-2 rounded-xl focus:outline-none focus:border-sky-500">
+                </div>
+            </div>
+
+            <!-- Gmail Input -->
+            <div>
+                <label class="text-[10px] text-slate-400 block mb-1">জিমেইল অ্যাড্রেস</label>
+                <input type="email" required placeholder="example@gmail.com" class="w-full bg-slate-950 border border-slate-800 text-xs text-white px-3 py-2 rounded-xl focus:outline-none focus:border-sky-500">
+            </div>
+
+            <!-- Phone Number Input with OTP Trigger -->
+            <div>
+                <label class="text-[10px] text-slate-400 block mb-1">ফোন নম্বর</label>
+                <div class="flex gap-2">
+                    <input type="tel" id="phoneInput" required placeholder="+880 1700-000000" class="flex-1 bg-slate-950 border border-slate-800 text-xs text-white px-3 py-2 rounded-xl focus:outline-none focus:border-sky-500">
+                    <button type="button" onclick="sendOTP()" class="bg-slate-800 hover:bg-slate-700 text-sky-400 border border-slate-700 font-bold px-3 py-2 rounded-xl text-[11px] whitespace-nowrap transition">
+                        OTP পাঠান
+                    </button>
+                </div>
+            </div>
+
+            <!-- OTP Input Box (Initially Hidden) -->
+            <div id="otpBox" class="hidden bg-sky-950/30 p-3 rounded-xl border border-sky-500/30 space-y-1.5">
+                <div class="flex justify-between items-center">
+                    <label class="text-[10px] text-sky-300 font-bold">ভেরিফিকেশন OTP কোড দিন</label>
+                    <span class="text-[9px] text-slate-400">কোড: <b class="text-amber-400">1234</b></span>
+                </div>
+                <input type="text" id="otpInput" maxlength="4" placeholder="৪ ডিজিটের কোড (যেমন: 1234)" class="w-full bg-slate-950 border border-sky-500/50 text-center font-mono text-sm tracking-widest text-sky-400 px-3 py-2 rounded-xl focus:outline-none">
+            </div>
+
+            <!-- Password & Confirm Password Row -->
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="text-[10px] text-slate-400 block mb-1">পাসওয়ার্ড</label>
+                    <input type="password" id="pass1" required placeholder="••••••••" class="w-full bg-slate-950 border border-slate-800 text-xs text-white px-3 py-2 rounded-xl focus:outline-none focus:border-sky-500">
+                </div>
+                <div>
+                    <label class="text-[10px] text-slate-400 block mb-1">কনফার্ম পাসওয়ার্ড</label>
+                    <input type="password" id="pass2" required placeholder="••••••••" class="w-full bg-slate-950 border border-slate-800 text-xs text-white px-3 py-2 rounded-xl focus:outline-none focus:border-sky-500">
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-2.5 rounded-xl transition text-xs shadow-lg shadow-sky-600/20 mt-2">
+                অ্যাকাউন্ট ভেরিফাই ও সাইন-আপ 🚀
+            </button>
+        </form>
+
     </div>
 
-    <!-- Login Form -->
-    <form id="loginForm">
-        <div class="form-group" id="loginInputGroup">
-            <label id="loginLabel">ইমেইল ঠিকানা</label>
-            <input type="email" id="loginEmail" placeholder="example@gmail.com" required>
-            <div id="loginPhoneWrapper" class="hidden">
-                <input type="tel" id="loginPhone" placeholder="">
-            </div>
-            <span class="toggle-method" onclick="toggleInput('login')">ফোন নম্বর দিয়ে লগইন করুন</span>
-        </div>
-        <div class="form-group">
-            <label>পাসওয়ার্ড</label>
-            <input type="password" placeholder="••••••••" required>
-        </div>
-        <button type="submit" class="auth-btn">প্রবেশ করুন</button>
-    </form>
+    <!-- Interactive Script -->
+    <script>
+        let isOtpSent = false;
 
-    <!-- Signup Form -->
-    <form id="signupForm" class="hidden">
-        <div class="form-group">
-            <label>সম্পূর্ণ নাম</label>
-            <input type="text" placeholder="আপনার নাম লিখুন" required>
-        </div>
-        <div class="form-group" id="signupInputGroup">
-            <label id="signupLabel">ইমেইল ঠিকানা</label>
-            <input type="email" id="signupEmail" placeholder="example@gmail.com" required>
-            <div id="signupPhoneWrapper" class="hidden">
-                <input type="tel" id="signupPhone" placeholder="">
-            </div>
-            <span class="toggle-method" onclick="toggleInput('signup')">ফোন নম্বর দিয়ে সাইন আপ করুন</span>
-        </div>
-        <div class="form-group">
-            <label>পাসওয়ার্ড</label>
-            <input type="password" placeholder="••••••••" required>
-        </div>
-        <button type="submit" class="auth-btn">একাউন্ট তৈরি করুন</button>
-    </form>
-</div>
-
-<!-- JS Script for Country Code -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
-<script>
-    // Initialize Phone Inputs with all countries
-    const loginPhoneInput = window.intlTelInput(document.querySelector("#loginPhone"), {
-        initialCountry: "auto",
-        geoIpLookup: function(success) {
-            fetch("https://ipapi.co/json/").then(res => res.json()).then(data => success(data.country_code)).catch(() => success("bd"));
-        },
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
-    });
-
-    const signupPhoneInput = window.intlTelInput(document.querySelector("#signupPhone"), {
-        initialCountry: "auto",
-        geoIpLookup: function(success) {
-            fetch("https://ipapi.co/json/").then(res => res.json()).then(data => success(data.country_code)).catch(() => success("bd"));
-        },
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
-    });
-
-    // Tab Switching Logic
-    function switchTab(type) {
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        if (type === 'login') {
-            document.querySelectorAll('.tab-btn')[0].classList.add('active');
-            document.getElementById('loginForm').classList.remove('hidden');
-            document.getElementById('signupForm').classList.add('hidden');
-        } else {
-            document.querySelectorAll('.tab-btn')[1].classList.add('active');
-            document.getElementById('signupForm').classList.remove('hidden');
-            document.getElementById('loginForm').classList.add('hidden');
+        function handleGoogleAuth() {
+            alert("গুগল/জিমেইল দিয়ে সফলভাবে অ্যাকাউন্ট কানেক্ট হয়েছে! নিউজফিডে রিডাইরেক্ট করা হচ্ছে...");
+            window.location.href = "feed.html";
         }
-    }
 
-    // Toggle Between Email & Phone Input
-    function toggleInput(formType) {
-        const isLogin = formType === 'login';
-        const emailInput = document.getElementById(isLogin ? 'loginEmail' : 'signupEmail');
-        const phoneWrapper = document.getElementById(isLogin ? 'loginPhoneWrapper' : 'signupPhoneWrapper');
-        const label = document.getElementById(isLogin ? 'loginLabel' : 'signupLabel');
-        const toggleBtn = event.target;
-
-        if (phoneWrapper.classList.contains('hidden')) {
-            phoneWrapper.classList.remove('hidden');
-            emailInput.style.display = 'none';
-            emailInput.removeAttribute('required');
-            label.innerText = 'ফোন নম্বর';
-            toggleBtn.innerText = 'ইমেইল দিয়ে ' + (isLogin ? 'লগইন' : 'সাইন আপ') + ' করুন';
-        } else {
-            phoneWrapper.classList.add('hidden');
-            emailInput.style.display = 'block';
-            emailInput.setAttribute('required', 'true');
-            label.innerText = 'ইমেইল ঠিকানা';
-            toggleBtn.innerText = 'ফোন নম্বর দিয়ে ' + (isLogin ? 'লগইন' : 'সাইন আপ') + ' করুন';
+        function sendOTP() {
+            const phone = document.getElementById('phoneInput').value.trim();
+            if (!phone) {
+                alert("অনুগ্রহ করে প্রথমে ফোন নম্বর দিন!");
+                return;
+            }
+            isOtpSent = true;
+            document.getElementById('otpBox').classList.remove('hidden');
+            alert(`আপনার ${phone} নম্বরে ৪ ডিজিটের OTP পাঠানো হয়েছে। টেস্ট কোড: 1234`);
         }
-    }
-</script>
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+
+            if (!isOtpSent) {
+                alert("দয়া করে প্রথমে 'OTP পাঠান' বাটনে ক্লিক করে নম্বরটি ভেরিফাই করুন!");
+                return;
+            }
+
+            const otp = document.getElementById('otpInput').value.trim();
+            if (otp !== '1234') {
+                alert("ভুল OTP কোড! সঠিক কোড (1234) দিন।");
+                return;
+            }
+
+            const p1 = document.getElementById('pass1').value;
+            const p2 = document.getElementById('pass2').value;
+
+            if (p1 !== p2) {
+                alert("দুটি পাসওয়ার্ড মিলছে না!");
+                return;
+            }
+
+            alert("ফোন নম্বর ও OTP ভেরিফিকেশন সফল হয়েছে! নিউজফিডে রিডাইরেক্ট করা হচ্ছে...");
+            window.location.href = "feed.html";
+        }
+    </script>
 
 </body>
 </html>
